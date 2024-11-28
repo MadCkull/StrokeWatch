@@ -22,5 +22,5 @@ StrokeWatch is a Flask-based web application developed for managing and predicti
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/CS-LTU/com7033-assignment-MRAWAISANWAR.git
+   git clone https://github.com/MadCkull/StrokeWatch.git
    ```
