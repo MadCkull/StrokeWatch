@@ -1,6 +1,3 @@
-#Tmp:
-Changes/
-
 #GitHub's Python Template:
 
 # Byte-compiled / optimized / DLL files
@@ -199,3 +196,5 @@ Thumbs.db
 
 # GitHub Actions cache
 .cache/
+
+ModelTrainingFiles/
