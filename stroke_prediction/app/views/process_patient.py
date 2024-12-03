@@ -213,7 +213,7 @@ def delete_patient(patient_id):
 def list_patients():
     try:
         page = int(request.args.get('page', 1))
-        per_page = 50
+        per_page = 10
         skip = (page - 1) * per_page
 
         # Get patients sorted by date, newest first

@@ -1,8 +1,7 @@
-// static/js/render_patients_list.js
-
 let page = 1;
 let loading = false;
 let hasMore = true;
+let totalPatients = [];
 
 function togglePatientList(btn) {
     const container = document.querySelector('.Patient-List-Container');
@@ -10,10 +9,14 @@ function togglePatientList(btn) {
 
     if (isHidden) {
         container.classList.remove('hidden');
-        loadPatients(true);
+        if (totalPatients.length > 0) {
+            clearPatients();
+            renderPatients(totalPatients);
+        } else {
+            loadPatients(true);
+        }
     } else {
         container.classList.add('hidden');
-        clearPatients();
     }
 }
 
@@ -23,6 +26,7 @@ async function loadPatients(reset = false) {
     if (reset) {
         page = 1;
         hasMore = true;
+        totalPatients = [];
         clearPatients();
     }
 
@@ -33,13 +37,15 @@ async function loadPatients(reset = false) {
         const response = await fetch(`/patient/list?page=${page}`);
         const data = await response.json();
 
-        if (data.patients.length < 50) hasMore = false;
+        if (data.patients.length < 10) {
+            hasMore = false;
+        }
 
+        totalPatients = [...totalPatients, ...data.patients];
         renderPatients(data.patients);
         page++;
     } catch (error) {
         console.error('Error loading patients:', error);
-        // showToast('Error loading patients', error, 'error');
         showToast(error);
     } finally {
         loading = false;
@@ -51,7 +57,7 @@ function renderPatients(patients) {
     const tbody = document.getElementById('patient-list-body');
     const template = document.getElementById('patient-row-template');
 
-    patients.forEach(patient => {
+    patients.forEach((patient, index) => {
         const clone = template.content.cloneNode(true);
         const row = clone.querySelector('tr');
 
@@ -90,10 +96,18 @@ function hideLoader() {
     document.querySelector('.windows-loader').classList.add('hidden');
 }
 
-// Infinite scroll
-const container = document.querySelector('.Patient-List-Container');
-container.addEventListener('scroll', () => {
-    if (container.scrollHeight - container.scrollTop === container.clientHeight) {
-        loadPatients();
+function isScrolledToBottom(element) {
+    return Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 1;
+}
+
+// Initialize scroll handler after DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.Patient-List-Container');
+    if (container) {
+        container.addEventListener('scroll', () => {
+            if (isScrolledToBottom(container)) {
+                loadPatients();
+            }
+        });
     }
 });

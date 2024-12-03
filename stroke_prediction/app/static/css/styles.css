@@ -714,7 +714,7 @@ brand-link {
 }
 
 /* Search Form */
-.search-form {
+#main-search-form {
   width: 100%;
 }
 
@@ -1000,8 +1000,8 @@ brand-link {
   }
 }
 
-.Patient-List-Container.hidden {
-  display: none;
+.windows-loader.hidden {
+  display: none !important;
 }
 
 .patient-list-section {
@@ -1022,4 +1022,8 @@ brand-link {
   transition: all 0.3s ease;
   max-height: 600px;
   overflow-y: auto;
+}
+
+.Patient-List-Container.hidden {
+  display: none;
 }
