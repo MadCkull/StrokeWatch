@@ -38,6 +38,10 @@
     <!-- JavaScript Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
     <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    <script
+      src="{{ url_for('static', filename='js/render_patients_list.js') }}"
+      defer
+    ></script>
 
     <!-- Additional JavaScript block for child templates -->
     {% block extra_head_js %}{% endblock %}
