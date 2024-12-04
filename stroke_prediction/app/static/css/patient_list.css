@@ -1,0 +1,141 @@
+/* Patient List */
+.patient-list-wrapper {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.patient-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #e4e4e4;
+}
+
+.patient-list-table th {
+  background: #252525;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.patient-list-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #333;
+}
+
+.patient-list-table tbody tr:hover {
+  background: #252525;
+}
+
+.risk-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: white;
+  font-weight: 500;
+}
+
+.risk-badge.high {
+  background: #dc2626;
+}
+.risk-badge.medium {
+  background: #d97706;
+}
+.risk-badge.low {
+  background: #059669;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: #e4e4e4;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: #333;
+}
+.edit-btn:hover {
+  color: #60a5fa;
+}
+.delete-btn:hover {
+  color: #dc2626;
+}
+
+/* Windows 11 style loader */
+.windows-loader {
+  display: flex;
+  gap: 6px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.windows-loader .dot {
+  width: 8px;
+  height: 8px;
+  background: #60a5fa;
+  border-radius: 50%;
+  animation: bounce 1.5s infinite;
+}
+
+.windows-loader .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.windows-loader .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.windows-loader .dot:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.windows-loader .dot:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+}
+
+.windows-loader.hidden {
+  display: none !important;
+}
+
+.patient-list-section {
+  margin-top: 24px;
+  width: 100%;
+}
+
+.patient-list-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 8px 16px;
+  background: #264f78;
+}
+
+.Patient-List-Container {
+  transition: all 0.3s ease;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.Patient-List-Container.hidden {
+  display: none;
+}

@@ -3,12 +3,19 @@ let loading = false;
 let hasMore = true;
 let totalPatients = [];
 
-function togglePatientList(btn) {
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function togglePatientList(btn) {
     const container = document.querySelector('.Patient-List-Container');
     const isHidden = container.classList.contains('hidden');
 
     if (isHidden) {
         container.classList.remove('hidden');
+        showLoader();
+        await delay(1000);
         if (totalPatients.length > 0) {
             clearPatients();
             renderPatients(totalPatients);
@@ -32,7 +39,7 @@ async function loadPatients(reset = false) {
 
     loading = true;
     showLoader();
-
+    await delay(1000);
     try {
         const response = await fetch(`/patient/list?page=${page}`);
         const data = await response.json();
@@ -61,26 +68,30 @@ function renderPatients(patients) {
         const clone = template.content.cloneNode(true);
         const row = clone.querySelector('tr');
 
-        row.querySelector('[data-field="patient_id"]').textContent = patient.patient_id;
+        row.querySelector('[data-field="patient_id"]').textContent = "SW" + patient.patient_id;
         row.querySelector('[data-field="name"]').textContent = patient.name;
         row.querySelector('[data-field="age"]').textContent = patient.age;
         row.querySelector('[data-field="gender"]').textContent = patient.gender;
 
         const riskBadge = row.querySelector('.risk-badge');
-        riskBadge.textContent = `${patient.stroke_risk}%`;
-        riskBadge.classList.add(getRiskClass(patient.stroke_risk));
+        riskBadge.textContent = `${Number(patient.stroke_risk).toFixed(2)}%`;
+        riskBadge.style.backgroundColor = getRiskColor(patient.stroke_risk);
 
         row.querySelector('[data-field="date"]').textContent =
             new Date(patient.record_entry_date).toLocaleDateString();
+
+        const deleteBtn = row.querySelector('.delete-btn');
+        deleteBtn.onclick = () => deletePatient(patient.patient_id, row);
 
         tbody.appendChild(row);
     });
 }
 
-function getRiskClass(risk) {
-    if (risk > 70) return 'high';
-    if (risk > 30) return 'medium';
-    return 'low';
+function getRiskColor(risk) {
+    // Convert risk percentage to RGB
+    const red = Math.round((risk / 100) * 255);
+    const green = Math.round(((100 - risk) / 100) * 255);
+    return `rgb(${red}, ${green}, 0)`;
 }
 
 function clearPatients() {
