@@ -15,13 +15,19 @@ async function togglePatientList(btn) {
     if (isHidden) {
         container.classList.remove('hidden');
         showLoader();
-        await delay(1000);
         if (totalPatients.length > 0) {
+            //await delay(1000);
             clearPatients();
-            renderPatients(totalPatients);
+            await renderPatients(totalPatients);
         } else {
-            loadPatients(true);
+            await loadPatients(true);
         }
+
+        // Smooth scroll to the container
+        container.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end'
+        });
     } else {
         container.classList.add('hidden');
     }
@@ -60,9 +66,26 @@ async function loadPatients(reset = false) {
     }
 }
 
-function renderPatients(patients) {
+async function totalPatientsCount() {
+    try {
+        const response = await fetch('/patient/count');
+        const data = await response.json();
+        const totalCount = data.count
+        const patientCount = document.getElementById('total-patients');
+        if (patientCount) {
+            patientCount.textContent = totalCount;
+        }
+    } catch (error) {
+        console.error('Error counting patients:', error);
+        return "N/A";
+    }
+}
+
+async function renderPatients(patients) {
     const tbody = document.getElementById('patient-list-body');
     const template = document.getElementById('patient-row-template');
+
+    totalPatientsCount();
 
     patients.forEach((patient, index) => {
         const clone = template.content.cloneNode(true);
@@ -80,8 +103,22 @@ function renderPatients(patients) {
         row.querySelector('[data-field="date"]').textContent =
             new Date(patient.record_entry_date).toLocaleDateString();
 
+        const show_details = row;
         const deleteBtn = row.querySelector('.delete-btn');
-        deleteBtn.onclick = () => deletePatient(patient.patient_id, row);
+
+        // Add row click for details
+        show_details.onclick = (e) => {
+            // Don't trigger if clicking delete button
+            if (!e.target.closest('.delete-btn')) {
+                window.location.href = `/patient/search?patient_id=${patient.patient_id}`;
+            }
+        };
+
+        // Add delete functionality
+        deleteBtn.onclick = (e) => {
+            e.stopPropagation(); // Stop the row click event from triggering
+            deletePatient(patient.patient_id, row);
+        };
 
         tbody.appendChild(row);
     });

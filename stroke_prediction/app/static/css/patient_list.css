@@ -7,6 +7,46 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+.patient-header {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+#count-badge-left-border,
+#count-badge-right-border {
+  background: #252525;
+  width: 40px;
+  min-height: 16px;
+}
+
+#count-badge-left-border {
+  border-top-left-radius: 100%;
+  margin-right: -1px;
+}
+
+#count-badge-right-border {
+  border-top-right-radius: 100%;
+  margin-left: -1px;
+}
+
+.patient-count-badge {
+  background: #252525;
+  color: #e4e4e4;
+  padding: 6px 50px;
+  font-size: 10px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  height: 16px;
+}
+
+.count-number {
+  margin-left: 4px;
+  color: #60a5fa;
+  font-weight: 600;
+}
+
 .patient-list-table {
   width: 100%;
   border-collapse: collapse;
@@ -16,9 +56,17 @@
 .patient-list-table th {
   background: #252525;
   padding: 12px 16px;
+  margin-top: 0px;
   text-align: left;
   font-weight: 500;
   font-size: 14px;
+}
+.patient-list-table th:first-child {
+  border-bottom-left-radius: 12px !important;
+}
+
+.patient-list-table th:last-child {
+  border-bottom-right-radius: 12px !important;
 }
 
 .patient-list-table td {
@@ -26,8 +74,26 @@
   border-bottom: 1px solid #333;
 }
 
+.patient-list-table td:first-child {
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+}
+.patient-list-table td:last-child {
+  border-top-right-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+.patient-list-table tbody tr {
+  transition: all 0.3s ease-in;
+}
 .patient-list-table tbody tr:hover {
   background: #252525;
+}
+
+.patient-list-table tbody tr:hover .show-details-btn {
+  visibility: visible;
+  opacity: 1;
 }
 
 .risk-badge {
@@ -38,17 +104,7 @@
   font-weight: 500;
 }
 
-.risk-badge.high {
-  background: #dc2626;
-}
-.risk-badge.medium {
-  background: #d97706;
-}
-.risk-badge.low {
-  background: #059669;
-}
-
-.actions {
+td.actions {
   display: flex;
   gap: 8px;
 }
@@ -70,6 +126,17 @@
 }
 .delete-btn:hover {
   color: #dc2626;
+}
+
+.show-details-btn {
+  margin-left: auto;
+  color: gray;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+.show-details-btn:hover {
+  background: transparent !important;
 }
 
 /* Windows 11 style loader */
@@ -119,6 +186,7 @@
 .patient-list-section {
   margin-top: 24px;
   width: 100%;
+  border-radius: 12px !important;
 }
 
 .patient-list-toggle {
@@ -133,6 +201,7 @@
 .Patient-List-Container {
   transition: all 0.3s ease;
   max-height: 600px;
+  border-radius: 12px;
   overflow-y: auto;
 }
 

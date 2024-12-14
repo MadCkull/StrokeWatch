@@ -16,6 +16,7 @@ function deletePatient(patientId, row = null) {
                         showToast("Patient record deleted successfully", "success");
                         row.remove();
                         totalPatients = totalPatients.filter(p => p.patient_id !== patientId);
+                        totalPatientsCount();
                     } else {
                         // Delete from details view
                         window.location.href = data.redirect;

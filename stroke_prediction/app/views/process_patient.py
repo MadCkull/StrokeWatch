@@ -164,7 +164,7 @@ def search_patient():
         patient = Patient.objects(patient_id=patient_id).first()
         
         if patient:
-            return render_template('patient_details.html', patient=patient)
+            return render_template('patient/patient_details.html', patient=patient)
         else:
             flash('Patient not found', 'warning')
             return jsonify({'success': False, 'message': 'Patient not found'}), 404
@@ -237,3 +237,13 @@ def list_patients():
             'success': False,
             'message': 'Error fetching patient list'
         }), 500
+    
+@patient_bp.route('/count', methods=['GET'])
+@login_required
+def patients_count():
+    try:
+        count = Patient.objects.count()
+        return jsonify({'count': count})
+    except Exception as error:
+        print('Error counting patients:', str(error))
+        return jsonify({'error': 'Failed to count patients'}), 500

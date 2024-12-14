@@ -78,7 +78,7 @@ def generate_patient_data():
         created_by=random.choice(CREATORS)
     )
 
-def generate_database(num_records=50):
+def generate_database(num_records=5460):
     connect('stroke_prediction')
     
     for _ in range(num_records):
